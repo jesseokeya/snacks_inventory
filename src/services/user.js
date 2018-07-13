@@ -2,6 +2,7 @@ import logger from 'custom-logger'
 import gravatar from 'gravatar'
 import bcrypt from 'bcrypt'
 import { UserSchema } from '../models/users'
+import { isNil } from 'lodash'
 
 class UserService extends UserSchema {
 
@@ -49,6 +50,30 @@ class UserService extends UserSchema {
             }
             logger.info(`fetched user ${_id} by id`)
             return user
+        })
+    }
+
+    async deleteUser(_id) {
+        return this.user.deleteOne({ _id }, (err) => {
+            if (err) {
+                logger.error(`error occured when trying to delete user ${_id} by id`)
+                throw err
+            }
+            logger.info(`user ${_id} was successfully deleted`)
+        })
+    }
+
+    async updateUser(params) {
+        const _id = params.id
+        const dataUpdated = {}
+        for (let param in params) {
+            if (!isNil(param) && !isNil(params[param])) {
+                dataUpdated[param] = params[param]
+            }
+        }
+        return this.user.updateOne({ _id }, dataUpdated, (err, updated) => {
+            if (err) { throw err }
+            return updated
         })
     }
 }

@@ -19,6 +19,12 @@ class ProductService extends ProductSchema {
             return product
         })
     }
+
+    async createProduct(params) {}
+
+    async deleteProduct(_id) {}
+
+    async updateProduct(_id) {}
 }
 
 export { ProductService }
