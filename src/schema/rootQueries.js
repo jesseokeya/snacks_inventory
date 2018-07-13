@@ -26,6 +26,13 @@ const query = new GraphQLObjectType({
             resolve(parentValue, args) {
                 return userService.getUserById(args.id)
             }
+        },
+        getProductById: {
+            type: ProductType,
+            args: { id: { type: GraphQLID } },
+            resolve(parentValue, args) {
+                return productService.getProductById(args.id)
+            }
         }
     })
 });

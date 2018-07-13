@@ -12,6 +12,13 @@ class ProductService extends ProductSchema {
             return products
         })
     }
+
+    async getProductById(_id) {
+        return this.product.findOne({ _id }, (err, product) => {
+            if (err) { throw err }
+            return product
+        })
+    }
 }
 
 export { ProductService }
