@@ -1,3 +1,4 @@
+import logger from 'custom-logger'
 import gravatar from 'gravatar'
 import bcrypt from 'bcrypt'
 import { UserSchema } from '../models/users'
@@ -11,7 +12,11 @@ class UserService extends UserSchema {
 
     async getUsers() {
         return this.user.find({}, (err, users) => {
-            if (err) { throw err }
+            if (err) {
+                logger.error(`error occured when trying to fetch all users`)
+                throw err
+            }
+            logger.info('got all users from the database')
             return users
         })
     }
@@ -31,13 +36,18 @@ class UserService extends UserSchema {
         newUser.dateUpdated = new Date().toISOString()
         newUser.password = await this.encryptPassword(user.password)
         return newUser.save().then((user) => {
+            logger.info('new user successfully created')
             return user
         }).catch(err => { throw err })
     }
 
     async getUserById(_id) {
         return this.user.findOne({ _id }, (err, user) => {
-            if (err) { throw err }
+            if (err) {
+                logger.error(`error occured when trying to fetch user ${_id} by id`)
+                throw err
+            }
+            logger.info(`fetched user ${_id} by id`)
             return user
         })
     }

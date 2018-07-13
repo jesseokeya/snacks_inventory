@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import { schema } from './schema'
 import expressGraphQL from 'express-graphql'
-import winston from 'winston'
+import logger from 'custom-logger'
 
 
 const start = () => {
@@ -17,7 +17,9 @@ const start = () => {
 
   try {
     mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true })
+    logger.info('mongo connected succesfully')
   } catch (err) {
+    logger.debug('application could not connect to mongo')
     throw err
   }
 
@@ -36,6 +38,8 @@ const start = () => {
 
 try {
   start()
+  logger.info('application started successfully')
 } catch (err) {
-  throw err
+  logger.error('error occured when during application start up')
+  throw error
 }
