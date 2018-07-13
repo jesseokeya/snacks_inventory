@@ -4,6 +4,7 @@ import dotenv from 'dotenv'
 import mongoose from 'mongoose'
 import { schema } from './schema'
 import expressGraphQL from 'express-graphql'
+import winston from 'winston'
 
 
 const start = () => {
@@ -11,6 +12,8 @@ const start = () => {
 
   const PORT = process.env.PORT || 3002
   const app = express()
+
+  app.use(morgan('dev'))
 
   try {
     mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true })
@@ -28,8 +31,6 @@ const start = () => {
     graphiql: true
   }))
 
-
-  app.use(morgan('dev'))
   app.listen(PORT, () => console.log(`server running on port *${PORT}`))
 }
 

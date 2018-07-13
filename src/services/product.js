@@ -1,4 +1,3 @@
-import mongoose from 'mongoose'
 import { ProductSchema } from '../models/products'
 
 class ProductService extends ProductSchema {

@@ -1,4 +1,4 @@
-import { GraphQLObjectType } from 'graphql'
+import { GraphQLObjectType, GraphQLList, GraphQLID } from 'graphql'
 import { UserService, ProductService } from '../services'
 import { UserType, ProductType } from './types'
 
@@ -8,16 +8,23 @@ const productService = new ProductService()
 const query = new GraphQLObjectType({
     name: 'query',
     fields: () => ({
-        User: {
-            type: UserType,
+        Users: {
+            type: GraphQLList(UserType),
             resolve(parentValue, args, req) {
                 return userService.getUsers()
             }
         },
-        Product: {
-            type: ProductType,
+        Products: {
+            type: GraphQLList(ProductType),
             resolve(parentValue, args, req) {
                 return productService.getProducts()
+            }
+        },
+        getUserById: {
+            type: UserType,
+            args: { id: { type: GraphQLID } },
+            resolve(parentValue, args) {
+                return userService.getUserById(args.id)
             }
         }
     })
