@@ -29,6 +29,7 @@ const Product = new _mongoose2.default.Schema({
     },
     vendor: {
         type: String,
+        required: true
     },
     productType: {
         type: String
