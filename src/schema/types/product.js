@@ -3,9 +3,7 @@ import {
     GraphQLObjectType,
     GraphQLString,
     GraphQLID,
-    GraphQLList,
-    GraphQLInt,
-    GraphQLBoolean
+    GraphQLList
 } from 'graphql'
 
 const ProductType = new GraphQLObjectType({

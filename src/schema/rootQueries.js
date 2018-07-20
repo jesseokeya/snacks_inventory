@@ -2,7 +2,7 @@ import { GraphQLObjectType, GraphQLList, GraphQLID } from 'graphql'
 import { UserService, ProductService, AuthService } from '../services'
 import { UserType, ProductType } from './types'
 
-const userService = new UserService()
+const userService = new UserService({ AuthService })
 const productService = new ProductService()
 
 const query = new GraphQLObjectType({

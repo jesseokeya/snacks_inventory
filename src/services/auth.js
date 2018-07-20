@@ -1,8 +1,6 @@
-import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import jwtDecode from 'jwt-decode'
 import dotenv from 'dotenv'
-import { isNil } from 'lodash'
 
 class AuthService {
     constructor(options = {}) {
