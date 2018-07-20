@@ -15,7 +15,7 @@ class AuthService {
     async decodeJwt(data) {
         return jwtDecode(data)
     }
-    
+
     async generateAuthHeader() {
         const { sub, subType } = process.env
         const token = `Bearer ${await this.signJwt({ sub, subType })}`
@@ -33,7 +33,7 @@ class AuthService {
     async setAuthHeaders(req) {
         let token = ''
         const url = req.protocol + '://' + req.get('host') + req.originalUrl
-        if (url === `http://localhost:${process.env.PORT}/graphql?`) {
+        if (url.includes(`http://localhost:${process.env.PORT}/graphql`)) {
             return await this.generateAuthHeader()
         }
         return token
