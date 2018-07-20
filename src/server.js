@@ -5,9 +5,10 @@ import mongoose from 'mongoose'
 import { schema } from './schema'
 import expressGraphQL from 'express-graphql'
 import logger from 'custom-logger'
+import { AuthService } from './services/index'
 
 
-const start = () => {
+const start = (authService) => {
   dotenv.config()
 
   const PORT = process.env.PORT || 3002
@@ -23,6 +24,17 @@ const start = () => {
     throw err
   }
 
+  app.use(async (req, res) => {
+    const isAuthenticated = await authService.authMiddleware({ req })
+    if (isAuthenticated) {
+      req.next()
+    } else {
+      res.status(404).send({
+        message: 'unauthorized request'
+      })
+    }
+  })
+
   app.post('/graphql', expressGraphQL({
     schema,
     graphiql: false
@@ -37,9 +49,10 @@ const start = () => {
 }
 
 try {
-  start()
+  const authService = new AuthService()
+  start(authService)
   logger.info('application started successfully')
 } catch (err) {
   logger.error('error occured when during application start up')
-  throw error
+  throw err
 }

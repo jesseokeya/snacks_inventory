@@ -4,9 +4,8 @@ import { UserService, ProductService, AuthService } from '../services'
 import { UserType, ProductType } from '../schema/types'
 
 
-const userService = new UserService()
+const userService = new UserService({ AuthService })
 const productService = new ProductService()
-const authService = new AuthService({ userService })
 
 const mutation = new GraphQLObjectType({
     name: 'Mutation',
@@ -20,14 +19,14 @@ const mutation = new GraphQLObjectType({
                 email: { type: GraphQLString },
                 password: { type: GraphQLString }
             },
-            resolve(_, { firstName, lastName, gender, email, password }) {
+            resolve: (_, { firstName, lastName, gender, email, password }) => {
                 return userService.createUser({ firstName, lastName, gender, email, password })
             }
         },
         deleteUser: {
             type: UserType,
             args: { id: { type: new GraphQLNonNull(GraphQLID) } },
-            resolve(_, { id }) {
+            resolve: (_, { id }) => {
                 return userService.deleteUser(id)
             }
         },
@@ -40,7 +39,7 @@ const mutation = new GraphQLObjectType({
                 email: { type: GraphQLString },
                 password: { type: GraphQLString }
             },
-            resolve(_, { id, firstName, lastName, email, password }) {
+            resolve: (_, { id, firstName, lastName, email, password }) => {
                 return userService.updateUser({ id, firstName, lastName, email, password })
             }
         },
@@ -58,7 +57,7 @@ const mutation = new GraphQLObjectType({
                 images: { type: new GraphQLList(GraphQLJSON) },
                 variants: { type: new GraphQLList(GraphQLJSON) }
             },
-            resolve(_, args) {
+            resolve: (_, args) => {
                 return productService.createProduct(args)
             }
         },
@@ -74,7 +73,7 @@ const mutation = new GraphQLObjectType({
                 images: { type: new GraphQLList(GraphQLJSON) },
                 variants: { type: new GraphQLList(GraphQLJSON) }
             },
-            resolve(_, args) {
+            resolve: (_, args) => {
                 return productService.updateProduct(args)
             }
         }

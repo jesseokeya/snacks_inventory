@@ -9,6 +9,10 @@ class UserService extends UserSchema {
     constructor(options = {}) {
         super()
         this.user = this.model('User')
+        if (!isNil(options.AuthService)) {
+            const { AuthService } = options
+            this.authService = new AuthService()
+        }
     }
 
     async getUsers() {
