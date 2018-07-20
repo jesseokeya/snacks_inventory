@@ -72,7 +72,11 @@ class UserService extends UserSchema {
             }
         }
         return this.user.updateOne({ _id }, dataUpdated, (err, updated) => {
-            if (err) { throw err }
+            if (err) {
+                logger.error(`error occured when trying to update user ${_id}`)
+                throw err
+            }
+            logger.info(`user ${_id} was successfully updated`)
             return updated
         })
     }

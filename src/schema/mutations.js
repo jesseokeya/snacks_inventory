@@ -1,4 +1,5 @@
-import { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLNonNull } from 'graphql'
+import { GraphQLObjectType, GraphQLString, GraphQLID, GraphQLNonNull, GraphQLList } from 'graphql'
+import GraphQLJSON from 'graphql-type-json'
 import { UserService, ProductService } from '../services'
 import { UserType, ProductType } from '../schema/types'
 
@@ -38,8 +39,25 @@ const mutation = new GraphQLObjectType({
                 password: { type: GraphQLString }
             },
             resolve(parentValue, { id, firstName, lastName, email, password }) {
-                console.log('ecfrfwrfw')
                 return userService.updateUser({ id, firstName, lastName, email, password })
+            }
+        },
+        createProduct: {
+            type: ProductType,
+            description: `\n images JSON object should 'src' field: example -> images: "{ "src": "image_source_url" }"
+            \n variants JSON object should 'title', 'options', 'requiresShipping', 'taxable', 'featuredImage' 
+            'available', 'price', 'grams' fields: example -> variants: "{}" \n`,
+            args: {
+                title: { type: GraphQLString },
+                handle: { type: GraphQLString },
+                vendor: { type: GraphQLString },
+                productType: { type: GraphQLString },
+                tags: { type: new GraphQLList(GraphQLString) },
+                images: { type: new GraphQLList(GraphQLJSON)},
+                variants: { type: new GraphQLList(GraphQLJSON) }
+            },
+            resolve(parentValue, args) {
+                return productService.createProduct(args)
             }
         }
     })

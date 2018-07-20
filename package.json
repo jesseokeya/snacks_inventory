@@ -50,6 +50,7 @@
     "express": "^4.16.3",
     "express-graphql": "^0.6.12",
     "graphql": "^0.13.2",
+    "graphql-type-json": "^0.2.1",
     "gravatar": "^1.6.0",
     "lodash": "^4.17.10",
     "mongoose": "^5.2.3",
