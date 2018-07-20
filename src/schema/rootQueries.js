@@ -16,7 +16,7 @@ const query = new GraphQLObjectType({
         },
         Products: {
             type: GraphQLList(ProductType),
-            resolve(parentValue, args, req) {
+            resolve(parentValue, args) {
                 return productService.getProducts()
             }
         },

@@ -37,14 +37,22 @@ class ProductService extends ProductSchema {
         if (isObject(newProduct.images[0])) {
             newProduct.images['dateCreated'] = new Date().toISOString()
             newProduct.images['dateUpdated'] = new Date().toISOString()
+        } else {
+            newProduct.images = {
+                dateCreated: new Date().toISOString(),
+                dataUpdated: new Date().toISOString(),
+                src: 'https://cdn-tp1.mozu.com/21830-33325/resources/images/no-product-image.png?_mzcb=_1528467086423'
+            }
         }
         return newProduct.save()
-            .then(user => user).catch(err => {
+            .then(product => {
+                logger.info('successfully created a new product')
+                return product
+            }).catch(err => {
                 if (err) {
                     logger.error(`error occured when trying to create a new product`)
                     throw err
                 }
-                logger.info('successfully created a new product')
             })
     }
 
@@ -58,7 +66,8 @@ class ProductService extends ProductSchema {
         })
     }
 
-    async updateProduct(_id) {
+    async updateProduct(params) {
+        const _id = params.id
         const dataUpdated = {}
         for (let param in params) {
             if (!isNil(param) && !isNil(params[param])) {
@@ -68,9 +77,9 @@ class ProductService extends ProductSchema {
         dataUpdated.dateUpdated = new Date().toISOString()
         dataUpdated.images[0]['dateUpdated'] = new Date().toISOString()
         return this.product.updateOne({ _id }, dataUpdated, (err, updated) => {
-            if (err) { 
+            if (err) {
                 logger.error(`error occured when trying to update product ${_id}`)
-                throw err 
+                throw err
             }
             logger.info(`product ${_id} was successfully updated`)
             return updated
