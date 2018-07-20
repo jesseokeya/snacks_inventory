@@ -10,27 +10,27 @@ const query = new GraphQLObjectType({
     fields: () => ({
         Users: {
             type: GraphQLList(UserType),
-            resolve(parentValue, args, req) {
+            resolve() {
                 return userService.getUsers()
             }
         },
         Products: {
             type: GraphQLList(ProductType),
-            resolve(parentValue, args) {
+            resolve() {
                 return productService.getProducts()
             }
         },
         getUserById: {
             type: UserType,
             args: { id: { type: GraphQLID } },
-            resolve(parentValue, args) {
+            resolve(_, args) {
                 return userService.getUserById(args.id)
             }
         },
         getProductById: {
             type: ProductType,
             args: { id: { type: GraphQLID } },
-            resolve(parentValue, args) {
+            resolve(_, args) {
                 return productService.getProductById(args.id)
             }
         }

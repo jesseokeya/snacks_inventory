@@ -20,14 +20,14 @@ const mutation = new GraphQLObjectType({
                 email: { type: GraphQLString },
                 password: { type: GraphQLString }
             },
-            resolve(parentValue, { firstName, lastName, gender, email, password }) {
+            resolve(_, { firstName, lastName, gender, email, password }) {
                 return userService.createUser({ firstName, lastName, gender, email, password })
             }
         },
         deleteUser: {
             type: UserType,
             args: { id: { type: new GraphQLNonNull(GraphQLID) } },
-            resolve(parentValue, { id }) {
+            resolve(_, { id }) {
                 return userService.deleteUser(id)
             }
         },
@@ -40,7 +40,7 @@ const mutation = new GraphQLObjectType({
                 email: { type: GraphQLString },
                 password: { type: GraphQLString }
             },
-            resolve(parentValue, { id, firstName, lastName, email, password }) {
+            resolve(_, { id, firstName, lastName, email, password }) {
                 return userService.updateUser({ id, firstName, lastName, email, password })
             }
         },
@@ -58,7 +58,7 @@ const mutation = new GraphQLObjectType({
                 images: { type: new GraphQLList(GraphQLJSON) },
                 variants: { type: new GraphQLList(GraphQLJSON) }
             },
-            resolve(parentValue, args) {
+            resolve(_, args) {
                 return productService.createProduct(args)
             }
         },
@@ -74,7 +74,7 @@ const mutation = new GraphQLObjectType({
                 images: { type: new GraphQLList(GraphQLJSON) },
                 variants: { type: new GraphQLList(GraphQLJSON) }
             },
-            resolve(parentValue, args) {
+            resolve(_, args) {
                 return productService.updateProduct(args)
             }
         }
