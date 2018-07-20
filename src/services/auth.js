@@ -15,11 +15,7 @@ class AuthService {
     async decodeJwt(data) {
         return jwtDecode(data)
     }
-
-    async login(credentials) {
-        const { email, password } = credentials
-    }
-
+    
     async generateAuthHeader() {
         const { sub, subType } = process.env
         const token = `Bearer ${await this.signJwt({ sub, subType })}`

@@ -84,6 +84,10 @@ class UserService extends UserSchema {
             return updated
         })
     }
+
+    async login(credentials) {
+
+    }
 }
 
 export { UserService }

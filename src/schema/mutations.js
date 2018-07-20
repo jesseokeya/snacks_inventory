@@ -3,7 +3,6 @@ import GraphQLJSON from 'graphql-type-json'
 import { UserService, ProductService, AuthService } from '../services'
 import { UserType, ProductType } from '../schema/types'
 
-
 const userService = new UserService({ AuthService })
 const productService = new ProductService()
 
