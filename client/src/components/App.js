@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import { Nav } from './common'
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <h1> Welcome </h1>
+      <div>
+        <Nav/>
       </div>
     );
   }
